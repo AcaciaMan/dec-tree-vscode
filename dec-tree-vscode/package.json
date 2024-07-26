@@ -30,8 +30,9 @@
     "views": {
       "myExtensionContainer": [
         {
-          "id": "myView",
-          "name": "My View"
+          "type": "webview",
+          "id": "myExtension.myWebview",
+          "name": "My View Test"
         }
       ]
     }
