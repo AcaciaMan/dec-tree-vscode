@@ -35,6 +35,17 @@
           "name": "My View Test"
         }
       ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "Dec Tree Configuration",
+      "properties": {
+        "dec-tree-vscode.pythonPath": {
+          "type": "string",
+          "default": "C:/Tools/Python312/python.exe",
+          "description": "Python executable path"
+        }
+      }
     }
   },
   "scripts": {
