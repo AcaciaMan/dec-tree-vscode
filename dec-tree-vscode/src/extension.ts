@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "dec-tree-vscode" is now active!');
 	const config = vscode.workspace.getConfiguration("dec-tree-vscode");
-    const newSettingValue = config.get<string>("pythonPath");
+    const newSettingValue = config.get<string>("pyPath");
 	console.log(newSettingValue);
 
 	// The command has been defined in the package.json file
