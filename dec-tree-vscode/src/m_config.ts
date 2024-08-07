@@ -11,8 +11,8 @@ class M_Config {
   );
 
   public static getString(key: string, defaultValue: string): string {
-    const value = M_Config.getConfigString(
-      M_Config.extensionConfig,
+    const value = M_Config.getConString(
+      M_Config.extensionId,
       key,
       defaultValue
     );
@@ -22,18 +22,39 @@ class M_Config {
   public static getConString(
     config: string,
     key: string,
-    defaultValue: string
+    defaultValue: string,
+    depth: number = 0
   ): string {
+
+    if (depth > 10) {
+      throw new Error("Too many levels of recursion in configuration");
+    }
+    
+    let conString: string;
     if (config === M_Config.extensionId) {
-      return M_Config.getConfigString(
+      conString = M_Config.getConfigString(
         M_Config.extensionConfig,
         key,
         defaultValue
       );
     } else {
       const configVSCode = vscode.workspace.getConfiguration(config);
-      return M_Config.getConfigString(configVSCode, key, defaultValue);
+      conString = M_Config.getConfigString(configVSCode, key, defaultValue);
     }
+
+
+    // in conString find regular expression ${config:extensionId.key}
+    const regExp = /\${config:(\w+)\.(\w+)}/;
+    let match = regExp.exec(conString);
+    while (match !== null) {
+      const configName = match[1];
+      const configKey = match[2];
+      const value = M_Config.getConString(configName, configKey, "", depth + 1);
+      conString = conString.replace(match[0], value);
+      match = regExp.exec(conString);
+    }
+
+    return conString;
   }
 
   public static getConfigString(
