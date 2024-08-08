@@ -26,7 +26,7 @@ class M_Config {
     depth: number = 0
   ): string {
 
-    if (depth > 10) {
+    if (depth > 100) {
       throw new Error("Too many levels of recursion in configuration");
     }
     
@@ -44,7 +44,9 @@ class M_Config {
 
 
     // in conString find regular expression ${config:extensionId.key}
-    const regExp = /\${config:(\w+)\.(\w+)}/;
+    // extensionId can have _ and - 
+    //  const regExp = /\${config:(\w+)\.(\w+)}/;
+    const regExp = /\${config:([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)}/;
     let match = regExp.exec(conString);
     while (match !== null) {
       const configName = match[1];

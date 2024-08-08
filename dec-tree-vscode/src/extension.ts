@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+import M_Config from './m_config';
+
 import { MyViewProvider } from "./myViewProvider";
 
 // This method is called when your extension is activated
@@ -11,9 +13,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "dec-tree-vscode" is now active!');
-	const config = vscode.workspace.getConfiguration("dec-tree-vscode");
-    const newSettingValue = config.get<string>("pyPath");
-	console.log(newSettingValue);
+	console.log("Something")
+console.log(M_Config.getString(M_Config.pyPath,""))
+
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
