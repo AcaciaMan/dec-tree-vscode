@@ -5,6 +5,10 @@ class M_Config {
   public static readonly extensionId = "dec-tree-vscode";
 
   public static readonly pyPath = "pyPath";
+  public static readonly pyExePath = "pyExePath";
+  public static readonly pyPackagePath = "pyPackagePath";
+  public static readonly pyChildProcess = "pyChildProcess";
+  public static readonly pyCWD = "pyCWD";
 
   public static readonly extensionConfig = vscode.workspace.getConfiguration(
     M_Config.extensionId
@@ -25,11 +29,10 @@ class M_Config {
     defaultValue: string,
     depth: number = 0
   ): string {
-
     if (depth > 100) {
       throw new Error("Too many levels of recursion in configuration");
     }
-    
+
     let conString: string;
     if (config === M_Config.extensionId) {
       conString = M_Config.getConfigString(
@@ -42,9 +45,8 @@ class M_Config {
       conString = M_Config.getConfigString(configVSCode, key, defaultValue);
     }
 
-
     // in conString find regular expression ${config:extensionId.key}
-    // extensionId can have _ and - 
+    // extensionId can have _ and -
     //  const regExp = /\${config:(\w+)\.(\w+)}/;
     const regExp = /\${config:([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)}/;
     let match = regExp.exec(conString);
@@ -68,17 +70,16 @@ class M_Config {
     return value;
   }
 
-  public static async setConString(configName: string, key: string, value: string): Promise<void> {
-
+  public static async setConString(
+    configName: string,
+    key: string,
+    value: string
+  ): Promise<void> {
     const config = M_Config.extensionConfig;
-      if(configName !== M_Config.extensionId) {
-           const config = vscode.workspace.getConfiguration(configName);
-        }
-           await config.update(
-          key,
-          value,
-          vscode.ConfigurationTarget.Global
-      );
+    if (configName !== M_Config.extensionId) {
+      const config = vscode.workspace.getConfiguration(configName);
+    }
+    await config.update(key, value, vscode.ConfigurationTarget.Global);
   }
 }
 
