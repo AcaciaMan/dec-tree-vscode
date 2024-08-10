@@ -1,4 +1,3 @@
-import fs from "fs";
 import * as vscode from "vscode";
 
 class M_Config {
