@@ -397,3 +397,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+dec-tree-vscode/.eslintcache
+dec-tree-vscode/.vscode-test
+dec-tree-vscode/out
+dec-tree-vscode/tsconfig.tsbuildinfo
