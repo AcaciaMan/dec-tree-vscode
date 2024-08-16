@@ -68,6 +68,7 @@ describe("M_App", () => {
       };
 
       await M_App.pyApp.send(pythonScript);
+      M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
       M_Logging.log("Result:", JSON.stringify(M_App.pyApp.result));
 
       await M_App.pyApp.destroy(); // Terminate the child process

@@ -1,6 +1,7 @@
 export interface python_channel {
   received_data: Buffer | null;
   received_json: object | null;
+  received_output: string | null;
   bReceivedResponse: boolean;
   getJSONAs64ByteEncoded(jObj: object): string;
   encode(jObj: object): string;
@@ -11,11 +12,13 @@ export interface python_channel {
 export class PythonChannel implements python_channel {
   received_data: Buffer | null;
   received_json: object | null;
+  received_output: string | null;
   bReceivedResponse: boolean = false;
 
   constructor() {
     this.received_data = null;
     this.received_json = null;
+    this.received_output = null;
   }
 
   getJSONAs64ByteEncoded(jObj: object): string {
@@ -39,6 +42,20 @@ export class PythonChannel implements python_channel {
 
     const jsonString = Buffer.from(this.received_data).toString("latin1");
     // console.log(jsonString);
+
+    // Check if the start and end markers for stdout are present 'out_start_###' and 'out_end_###' - if so, extract the string this.received_output between them
+    const outStartMarker = "out_start_###";
+    const outEndMarker = "out_end_###";
+    const outStartIndex = jsonString.indexOf(outStartMarker);
+    const outEndIndex = jsonString.indexOf(outEndMarker);
+
+    if (outStartIndex > -1 && outEndIndex > -1) {
+      this.received_output = jsonString.substring(
+        outStartIndex + outStartMarker.length,
+        outEndIndex
+      );
+
+    }
 
     const startMarker = "#$%";
     const endMarker = "%$#";
@@ -65,7 +82,8 @@ export class PythonChannel implements python_channel {
         console.log("recout:", jsonString.substring(endIndex + 3));
       }
       this.received_data = null;
-    } else if (startIndex === -1 && jsonString.length > 0) {
+    } 
+    if (startIndex === -1 && outStartIndex === -1 && jsonString.length > 0) {
       console.log("recout:", jsonString);
       this.received_data = null;
     }
@@ -74,5 +92,6 @@ export class PythonChannel implements python_channel {
   new_message(): void {
     this.bReceivedResponse = false;
     this.received_json = null;
+    this.received_output = null;
   }
 }
