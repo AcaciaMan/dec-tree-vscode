@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import M_Config from './m_config';
 
 import { MyViewProvider } from "./myViewProvider";
+import M_App from './m_app';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -40,4 +41,6 @@ console.log(M_Config.getString(M_Config.pyPath,""))
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+	M_App.pyApp.destroy();
+}
