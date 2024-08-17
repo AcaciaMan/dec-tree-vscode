@@ -36,7 +36,7 @@ export class MyViewProvider implements vscode.WebviewViewProvider {
           m_classifier.__call__().then(() => {
             
           
-          vscode.workspace.openTextDocument({ content: M_App.pyApp.channel.received_output || "" }).then((doc) => {
+          vscode.workspace.openTextDocument({ content: M_App.pyApp.channel.received_output }).then((doc) => {
             vscode.window.showTextDocument(doc);
           }
           );

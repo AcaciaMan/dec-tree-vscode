@@ -4,8 +4,8 @@ import { python_message, PythonScript } from "./python_message";
 import { PythonChannel, python_channel } from "./python_channel";
 
 export class PythonApp {
-  private _child: ChildProcess | null = null;
-  public python_message: python_message | null = null;
+  private _child: ChildProcess | undefined;
+  public python_message: python_message | undefined;
   public result: any;
   public channel: python_channel = new PythonChannel();
 
@@ -20,11 +20,11 @@ export class PythonApp {
     cwd: M_Config.getString(M_Config.pyCWD, ""),
   };
 
-  public get child(): ChildProcess | null {
+  public get child(): ChildProcess | undefined {
     return this._child;
   }
 
-  public set child(value: ChildProcess | null) {
+  public set child(value: ChildProcess | undefined) {
     this._child = value;
   }
 
@@ -109,6 +109,6 @@ export class PythonApp {
     if (this.child) {
       this.child.kill();
     }
-    this.child = null;
+    this.child = undefined;
   }
 }

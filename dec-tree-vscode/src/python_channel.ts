@@ -1,7 +1,7 @@
 export interface python_channel {
-  received_data: Buffer | null;
-  received_json: object | null;
-  received_output: string | null;
+  received_data: Buffer | undefined;
+  received_json: object | undefined;
+  received_output: string | undefined;
   bReceivedResponse: boolean;
   getJSONAs64ByteEncoded(jObj: object): string;
   encode(jObj: object): string;
@@ -10,15 +10,15 @@ export interface python_channel {
 }
 
 export class PythonChannel implements python_channel {
-  received_data: Buffer | null;
-  received_json: object | null;
-  received_output: string | null;
+  received_data: Buffer | undefined;
+  received_json: object | undefined;
+  received_output: string | undefined;
   bReceivedResponse: boolean = false;
 
   constructor() {
-    this.received_data = null;
-    this.received_json = null;
-    this.received_output = null;
+    this.received_data = undefined;
+    this.received_json = undefined;
+    this.received_output = undefined;
   }
 
   getJSONAs64ByteEncoded(jObj: object): string {
@@ -81,17 +81,17 @@ export class PythonChannel implements python_channel {
       if (endIndex < jsonString.length - 3) {
         console.log("recout:", jsonString.substring(endIndex + 3));
       }
-      this.received_data = null;
+      this.received_data = undefined;
     } 
     if (startIndex === -1 && outStartIndex === -1 && jsonString.length > 0) {
       console.log("recout:", jsonString);
-      this.received_data = null;
+      this.received_data = undefined;
     }
   }
 
   new_message(): void {
     this.bReceivedResponse = false;
-    this.received_json = null;
-    this.received_output = null;
+    this.received_json = undefined;
+    this.received_output = undefined;
   }
 }
