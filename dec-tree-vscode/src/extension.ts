@@ -15,7 +15,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "dec-tree-vscode" is now active!');
 	console.log("Something", vscode.workspace.workspaceFolders?.[0].uri.fsPath);
-console.log(M_Config.getString(M_Config.pyPath,""))
+    console.log(M_Config.getString(M_Config.pyPath,""))
+
+	M_App.rootFolder = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
 
 
 	// The command has been defined in the package.json file
