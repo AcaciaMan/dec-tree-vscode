@@ -22,9 +22,9 @@ describe("M_App", () => {
 
     pythonScript.imports = ["import yaml", "import os", "import json"];
     pythonScript.declarations = [{ m_args: { obj: "str" } }, { m_result: {} }];
-    pythonScript.code = ["m_result = json.dumps(&{m_args})"];
+    //pythonScript.code = ["m_result = json.dumps(&{m_args})"];
     //pythonScript.code = ["m_result = yaml.dump(m_args)"];
-    //pythonScript.code = ["m_result = m_args"];
+    pythonScript.code = ["m_result = m_args"];
     pythonScript.m_return = "m_result";
 
 
