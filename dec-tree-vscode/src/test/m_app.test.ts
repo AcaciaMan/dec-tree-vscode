@@ -2,6 +2,7 @@ import M_App from "../m_app";
 import { M_Logging } from "../m_logging";
 import { PythonScript } from "../python_message";
 import M_Config from "../m_config";
+import { M_Settings } from "../m_settings/m_settings";
 
 jest.mock("../m_config", () => {
     return {
@@ -36,7 +37,7 @@ describe("M_App", () => {
       cwd: "C:/work/GitHub/dec-tree-py/Python",
     };
 
-    await M_App.pyApp.send(pythonScript);
+    await M_App.send(pythonScript);
     M_Logging.log("Result:", JSON.stringify(M_App.pyApp.result));
 
     await M_App.pyApp.destroy(); // Terminate the child process
@@ -45,6 +46,8 @@ describe("M_App", () => {
 
     it("call classifier", async () => {
       (M_Config.getString as jest.Mock).mockReturnValue("someValue");
+      const iset = M_Settings.getInstance();
+      iset.addSetting("rootFolder", "c:/tmp");
 
       let pythonScript = new PythonScript();
 
@@ -67,14 +70,14 @@ describe("M_App", () => {
         cwd: "C:/work/GitHub/dec-tree-py/Python",
       };
 
-      await M_App.pyApp.send(pythonScript);
+      await M_App.send(pythonScript);
       M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
       M_Logging.log("Result:", JSON.stringify(M_App.pyApp.result));
 
       pythonScript = new PythonScript();
       pythonScript.code = ["m_classifier.plot_tree()", "m_result = 'OK'"];
       pythonScript.m_return = "m_result";
-      await M_App.pyApp.send(pythonScript);
+      await M_App.send(pythonScript);
       M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
       M_Logging.log("Result:", JSON.stringify(M_App.pyApp.result));
 

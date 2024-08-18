@@ -11,7 +11,8 @@ class M_App {
         //if M_Settings.getInstance().bSent is false, then send the settings
         const iset = M_Settings.getInstance();
         if (!iset.bSent) {
-            await M_App.pyApp.send(iset.getPythonScript);
+            let pythonScript = iset.getPythonScript();
+            await M_App.pyApp.send(pythonScript);
         }
 
         await M_App.pyApp.send(jObj);

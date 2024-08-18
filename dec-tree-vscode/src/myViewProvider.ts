@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { M_Classifier } from "./m_classifier/m_classifier"; // Import the M_Classifier class
 import M_App from "./m_app";
+import { M_Settings } from "./m_settings/m_settings";
 
 export class MyViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'myExtension.myWebview';
@@ -22,6 +23,7 @@ export class MyViewProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
     let m_classifier = new M_Classifier();
+    const iset = M_Settings.getInstance();
 
     webviewView.webview.onDidReceiveMessage((message) => {
       switch (message.command) {
@@ -53,7 +55,7 @@ export class MyViewProvider implements vscode.WebviewViewProvider {
           vscode.window.showInformationMessage(`Plotting...`);
 
   m_classifier.plot_tree().then(async () => {
-        const filePath = vscode.Uri.file("c:/tmp/output.png");
+        const filePath = vscode.Uri.file(iset.obj["rootFolder"] + "/output.png");
         await vscode.commands.executeCommand("vscode.open", filePath);
     }
   );

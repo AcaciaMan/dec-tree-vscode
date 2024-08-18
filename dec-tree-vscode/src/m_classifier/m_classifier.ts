@@ -18,7 +18,7 @@ export  class M_Classifier {
               //pythonScript.code = ["m_result = yaml.dump(m_args)"];
               //pythonScript.code = ["m_result = m_args"];
               pythonScript.m_return = "m_result";
-                    await M_App.pyApp.send(pythonScript);
+                    await M_App.send(pythonScript);
                     M_Logging.log(
                       "Channel output:",
                       M_App.pyApp.channel.received_output
@@ -29,7 +29,7 @@ export  class M_Classifier {
       let pythonScript = new PythonScript();
       pythonScript.code = ["m_classifier.plot_tree()", "m_result = 'OK'"];
       pythonScript.m_return = "m_result";
-      await M_App.pyApp.send(pythonScript);
+      await M_App.send(pythonScript);
       M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
     }
 }
