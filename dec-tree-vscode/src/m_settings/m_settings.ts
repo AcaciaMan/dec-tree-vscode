@@ -6,6 +6,7 @@ export class M_Settings {
   public sent_obj: { [key: string]: any } = {};
   public obj: { [key: string]: any } = {};
   public pythonScript: PythonScript = new PythonScript();
+  public bSent: boolean = true;
 
   private constructor() {
     // Initialization code here
@@ -20,6 +21,7 @@ export class M_Settings {
 
   public addSetting( name: string, value: any ): void {
     this.obj[name] = value;
+    this.bSent = false;
   }
 
   // get pythonScript to send only ansent settings
@@ -48,6 +50,7 @@ export class M_Settings {
         this.pythonScript.declarations.push({ m_settings: new_obj });
 
         this.sent_obj = this.obj;
+        this.bSent = true;
     
         return this.pythonScript;
     }
