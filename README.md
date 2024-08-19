@@ -10,3 +10,11 @@ This is Visual Studio Code extension to gather best practices of Decision Tree c
 ![vscode_feature_importance](https://github.com/user-attachments/assets/9465707e-2522-4e83-aaf0-2d606b08a056)
 
 Python code is committed in GitHub repository AcaciaMan/dec-tree-py.
+
+Next I am going to make an invented Web shop to sell Drills and Hammers. The shop is selling Cheap, Medium and Expensive types of items. Data for this Web shop will be generated with random numbers.
+
+For 6 years the shop buys items based on rules, like, one type of Drills and one type of Hammers to buy in a month based on Web page impressions when minimum defined levels of stock are reached.
+
+After 6 years there are gathered enough data to start making buy decisions based on statistics to better serve clients.
+
+Something like, if in next 2 months the shop will run out of items, then in that month buy one type of Drills and one type of Hammers what will be more in demand.
