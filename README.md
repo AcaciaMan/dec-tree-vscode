@@ -11,6 +11,8 @@ This is Visual Studio Code extension to gather best practices of Decision Tree c
 
 Python code is committed in GitHub repository AcaciaMan/dec-tree-py.
 
+## Web shop
+
 Next I am going to make an invented Web shop to sell Drills and Hammers. The shop is selling Cheap, Medium and Expensive types of items. Data for this Web shop will be generated with random numbers.
 
 For 6 years the shop buys items based on rules, like, one type of Drills and one type of Hammers to buy in a month based on Web page impressions when minimum defined levels of stock are reached.
