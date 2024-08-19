@@ -55,15 +55,21 @@ export class MyViewProvider implements vscode.WebviewViewProvider {
           vscode.window.showInformationMessage(`Plotting...`);
 
   m_classifier.plot_tree().then(async () => {
-        const filePath = vscode.Uri.file(iset.obj["rootFolder"] + "/output.png");
+        const filePath = vscode.Uri.file(iset.obj["rootFolder"] + "/decision_tree.png");
         await vscode.commands.executeCommand("vscode.open", filePath);
     }
   );
-
-
-
-
           
+          break;
+
+        case "importance":
+          // Call the plot_importance method of the M_Classifier class
+          // This will plot the feature importance
+          vscode.window.showInformationMessage(`Plotting importance...`);
+          m_classifier.plot_importance().then(async () => {
+            const filePath = vscode.Uri.file(iset.obj["rootFolder"] + "/feature_importance.png");
+            await vscode.commands.executeCommand("vscode.open", filePath);
+          });
           break;
       }
     });
@@ -82,8 +88,10 @@ export class MyViewProvider implements vscode.WebviewViewProvider {
       <body>
         <input type="text" id="inputText" placeholder="Enter text here">
         <button id="executeButton">Execute</button>
+        <br>
         <button id="loadButton">Load</button>
-        <button id="plotButton">Plot</button>
+        <button id="plotButton">Decision Tree</button>
+        <button id="importanceButton">Feature Importance</button>
         <script nonce="${nonce}">
           const vscode = acquireVsCodeApi();
           document.getElementById('executeButton').addEventListener('click', () => {
@@ -97,6 +105,10 @@ export class MyViewProvider implements vscode.WebviewViewProvider {
 
           document.getElementById('plotButton').addEventListener('click', () => {
             vscode.postMessage({ command: 'plot' });
+          });
+
+          document.getElementById('importanceButton').addEventListener('click', () => {
+            vscode.postMessage({ command: 'importance' });
           });
         </script>
       </body>
