@@ -7,6 +7,8 @@ import M_Config from './m_config';
 import { MyViewProvider } from "./myViewProvider";
 import M_App from './m_app';
 import { M_Settings } from './m_settings/m_settings';
+import { ProviderShopConfig } from './m_shop/providerShopConfig';
+
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -41,7 +43,14 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(viewDisposable );
 
-  console.log(viewDisposable);
+  // add providerShopConfig
+  const providerShopConfig = new ProviderShopConfig(context.extensionUri);
+  const viewDisposableShopConfig = vscode.window.registerWebviewViewProvider(
+    ProviderShopConfig.viewType,
+    providerShopConfig
+  );
+  context.subscriptions.push(viewDisposableShopConfig);
+
 
 }
 

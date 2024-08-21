@@ -33,6 +33,11 @@
           "type": "webview",
           "id": "myExtension.myWebview",
           "name": "My View Test"
+        },
+        {
+          "type": "webview",
+          "id": "myExtension.shopConfig",
+          "name": "Shop configuration"
         }
       ]
     },
