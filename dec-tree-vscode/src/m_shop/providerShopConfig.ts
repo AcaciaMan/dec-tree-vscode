@@ -73,7 +73,7 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
                     //open message.text that contains json in new tab
 
                     const jsondata = message.text;
-                    const filePath = vscode.Uri.file(iset.obj["rootFolder"] + "/jsondata.json");
+                    const filePath = vscode.Uri.file(iset.obj["rootFolder"] + "/shop-config.json");
                     vscode.workspace.fs.writeFile(filePath,
                         new TextEncoder().encode(jsondata)
                     );
