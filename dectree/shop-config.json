@@ -3,5 +3,6 @@
 },
 "try2":{
     "name": "try2"
-}
+},
+"current_try": "try1"
 }
