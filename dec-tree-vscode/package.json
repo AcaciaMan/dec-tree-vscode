@@ -38,6 +38,11 @@
           "type": "webview",
           "id": "myExtension.shopConfig",
           "name": "Shop configuration"
+        },
+        {
+          "type": "webview",
+          "id": "myExtension.shopRun",
+          "name": "Shop run"
         }
       ]
     },

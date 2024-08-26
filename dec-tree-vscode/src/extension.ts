@@ -8,6 +8,7 @@ import { MyViewProvider } from "./myViewProvider";
 import M_App from './m_app';
 import { M_Settings } from './m_settings/m_settings';
 import { ProviderShopConfig } from './m_shop/providerShopConfig';
+import { ProviderShopRun } from './m_shop/providerShopRun';
 
 
 // This method is called when your extension is activated
@@ -20,9 +21,24 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log("Something", vscode.workspace.workspaceFolders?.[0].uri.fsPath);
     console.log(M_Config.getString(M_Config.pyPath,""))
     
-    const setInst = M_Settings.getInstance();
+    const iset = M_Settings.getInstance();
 	const rootFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || 'c:/tmp';
-	setInst.addSetting("rootFolder", rootFolder);
+	iset.addSetting("rootFolder", rootFolder);
+
+	vscode.window.showInformationMessage(`Loading shop config...`);
+	//load json from file shop-config.json
+	const filePath2 = vscode.Uri.file(
+	iset.obj["rootFolder"] + "/shop-config.json"
+	);
+	vscode.workspace.fs.readFile(filePath2).then((data) => {
+	//const jsondata = new TextDecoder().decode(data);
+
+	//assign data to iset object 'shop-config'
+	iset.addSetting(
+		"shop-config",
+		JSON.parse(new TextDecoder().decode(data))
+	);
+	});
 
 
 	// The command has been defined in the package.json file
@@ -50,6 +66,15 @@ export function activate(context: vscode.ExtensionContext) {
     providerShopConfig
   );
   context.subscriptions.push(viewDisposableShopConfig);
+
+  // add providerShopRun
+  const providerShopRun = new ProviderShopRun(context.extensionUri);
+  const viewDisposableShopRun = vscode.window.registerWebviewViewProvider(
+	ProviderShopRun.viewType,
+	providerShopRun
+  );
+  context.subscriptions.push(viewDisposableShopRun);
+  
 
 
 }

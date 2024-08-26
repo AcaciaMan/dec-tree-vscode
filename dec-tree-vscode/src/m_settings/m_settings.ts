@@ -5,6 +5,8 @@ export class M_Settings {
 
   public sent_obj: { [key: string]: any } = {};
   public obj: { [key: string]: any } = {};
+  public m_conf: { [key: string]: any } = {};
+  public m_try: { [key: string]: any } = {};
   public pythonScript: PythonScript = new PythonScript();
   public bSent: boolean = true;
 
@@ -21,8 +23,44 @@ export class M_Settings {
 
   public addSetting( name: string, value: any ): void {
     this.obj[name] = value;
+    if (name === 'shop-config') {
+      this.addConf(value);
+    }
     this.bSent = false;
   }
+
+    public addConf( conf: { [key: string]: any } ): void {
+        //"""go through the configuration dictionary and add them to the configuration dictionary"""
+        
+        for (const key in conf) {
+            this.m_conf[key] = conf[key];
+        }
+
+        this.addTry(this.m_conf[this.getCurrentTry()]);
+    }
+
+    public addTry( try_dict: { [key: string]: any } ): void {
+        //"""go through the try dictionary and add them to the try dictionary"""
+
+        for (const key in try_dict) {
+            this.m_try[key] = try_dict[key];
+        }
+
+    }
+
+    public getCurrentTry(): string {
+        //"""return the current try"""
+        return this.m_conf['current_try'];
+    }
+
+        
+        
+    public getTryFolder(): string {
+        //"""return the root folder"""
+        return this.obj['rootFolder']+'/'+this.m_try['name'];
+    }
+    
+
 
   // get pythonScript to send only ansent settings
     public getPythonScript(): PythonScript {

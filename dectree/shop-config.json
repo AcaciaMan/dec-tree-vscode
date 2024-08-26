@@ -1,5 +1,9 @@
 {"try1":{
-    "name": "try1"
+    "name": "try1",
+    "target_name": "species",
+    "features_names": ["sepal length (cm)", "sepal width (cm)", "petal length (cm)", "petal width (cm)"],
+    "target_values": ["setosa", "versicolor", "virginica"],
+    "class_name": "M_DecTreeIris()"
 },
 "try2":{
     "name": "try2"
