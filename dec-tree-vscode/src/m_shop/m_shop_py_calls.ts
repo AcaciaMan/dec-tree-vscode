@@ -38,4 +38,23 @@ export class M_ShopPyCalls {
     await M_App.send(pythonScript);
     M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
   }
+
+  async generateData() {
+    let pythonScript = new PythonScript();
+    pythonScript.imports = ["from m_shop.m_shop import M_Shop",
+      "from m_settings.m_settings import M_SettingsSingleton"
+    ];
+    pythonScript.code = ["iset = M_SettingsSingleton()",
+      "m_shop_data = M_Shop()", 
+      "file_name = iset.m_set['rootFolder'] + '\\\\' + 'shop_data.pkl'",
+      "print('file_name:', file_name, flush=True)",
+      "dfShopData = m_shop_data.buy_and_sell()",
+      "print(dfShopData.info(), flush=True)",
+      "print(dfShopData.head(60), flush=True)",
+      "dfShopData.to_pickle(file_name)",
+       "m_result = 'OK'"];
+    pythonScript.m_return = "m_result";
+    await M_App.send(pythonScript);
+    M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
+  }
 }

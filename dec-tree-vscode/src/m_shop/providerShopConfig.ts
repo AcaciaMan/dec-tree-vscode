@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { M_Classifier } from "../m_classifier/m_classifier";
 import { M_Settings } from "../m_settings/m_settings";
 import M_App from "../m_app";
+import { M_ShopPyCalls } from "./m_shop_py_calls";
 
 
 export class ProviderShopConfig implements vscode.WebviewViewProvider {
@@ -23,7 +24,7 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
         };
 
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-        let m_classifier = new M_Classifier();
+        let m_calls = new M_ShopPyCalls();
         const iset = M_Settings.getInstance();
 
         webviewView.webview.onDidReceiveMessage((message) => {
@@ -53,6 +54,14 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
                             
                         }
                     );
+                    break;
+                case "generate":
+                    vscode.window.showInformationMessage(`Generating...`);
+                    //generate data
+                    
+                    m_calls.generateData().then(() => {
+                        vscode.window.showInformationMessage(`Generated!`);
+                    });
                     break;
 
 
@@ -94,6 +103,7 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
             <!-- add posibility to open enetered json data in new tab -->
             <button id="openJson">Open Json</button>
             <button id="loadJson">Load Json</button>
+            <button id="generate">Generate Data</button>
             <script nonce="${nonce}">
                 const vscode = acquireVsCodeApi();
                 document.getElementById('openJson').addEventListener('click', () => {
@@ -102,6 +112,9 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
                 });
                 document.getElementById('loadJson').addEventListener('click', () => {
                     vscode.postMessage({ command: 'loadJson' });
+                });
+                document.getElementById('generate').addEventListener('click', () => {
+                    vscode.postMessage({ command: 'generate' });
                 });
             </script>
 
