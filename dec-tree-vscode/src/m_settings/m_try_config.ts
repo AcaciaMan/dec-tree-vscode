@@ -32,4 +32,17 @@ export class M_TryConfig {
         fs.writeFileSync(iset.obj["rootFolder"] + "/shop-config.json", JSON.stringify(this.obj));
     }
 
+    //method to get tries names dictionary
+    public getTries(): { [key: string]: any } {
+        //if obj key starts with try, add its name to the dictionary
+        const tries: { [key: string]: any } = {};
+        for (const key in this.obj) {
+            if (key.startsWith("try")) {
+                tries[this.obj[key]["name"]] = this.obj[key];
+            }
+        }
+      
+        return tries;
+    }
+
 }
