@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <!--
+                Use a content security policy to only allow loading images from https or from our extension directory,
+                and only allow scripts that have a specific nonce.
+            -->
+            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src https: data: vscode-resource:; script-src 'nonce-{{nonce}}'; style-src vscode-resource: 'unsafe-inline';">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="{{styleUri}}" type="text/css" rel="stylesheet">
+            <title>Shop Config</title>
+        </head>
+        <body>
+            <h1>Shop Config</h1>
+<!-- Add text box to enter json data
+-->
+            
+            <!-- add posibility to open enetered json data in new tab -->
+            <button id="openJson">Open Json</button>
+            <button id="loadJson">Load Json</button>
+            <button id="saveJson">Save Json</button>
+            <br>
+            <button id="generate">Generate Data</button>
+            <br>
+
+            
+            <!-- add drop down list with tries names from M_TryConfig getTries() dictionary -->
+            <select id="triesDropdown">
+                <option value="0">Select...</option>
+            </select>
+
+
+            
+            <br>
+            <textarea id="jsondata" rows="10" cols="50"></textarea>
+            <script nonce="{{nonce}}">
+                const vscode = acquireVsCodeApi();
+                document.getElementById('openJson').addEventListener('click', () => {
+                    const jsondata = document.getElementById('jsondata').value;
+                    vscode.postMessage({ command: 'openJson', text: jsondata });
+                });
+                document.getElementById('loadJson').addEventListener('click', () => {
+                    vscode.postMessage({ command: 'loadJson' });
+                });
+                document.getElementById('saveJson').addEventListener('click', () => {
+                    vscode.postMessage({ command: 'saveJson' });
+                });
+                document.getElementById('generate').addEventListener('click', () => {
+                    vscode.postMessage({ command: 'generate' });
+                    console.log("generate clicked");
+                });
+
+                //add tries names to drop down list
+  window.addEventListener('message', event => {
+    const message = event.data;
+    const triesDropdown = document.getElementById('triesDropdown');
+
+    switch (message.command) {
+      case 'setTries':
+        
+        triesDropdown.innerHTML = '';
+        message.arrTries.forEach(tryName => {
+          const option = document.createElement('option');
+          option.value = tryName;
+          option.text = tryName;
+          triesDropdown.add(option);
+
+    });
+
+
+        //add event listener to dropdown list
+        triesDropdown.addEventListener('change', () => {
+          const selectedTry = triesDropdown.options[triesDropdown.selectedIndex].text;
+          vscode.postMessage({ command: 'selectTry', text: selectedTry });
+        });
+       
+        break;
+        case 'setTriesOption':
+            triesDropdown.value = message.currTry;
+            break;
+    }
+    });
+
+            // Notify the extension that the webview is loaded
+            window.addEventListener('DOMContentLoaded', () => {
+                vscode.postMessage({ command: 'webviewLoaded' });
+            });
+
+            </script>
+
+            <script nonce="{{nonce}}" src="{{scriptUri}}"></script>
+        </body>
+        </html>

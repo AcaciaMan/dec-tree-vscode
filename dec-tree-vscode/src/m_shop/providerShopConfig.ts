@@ -76,7 +76,11 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
             case "webviewLoaded":
                 // Send data to the webview
                 webviewView.webview.postMessage({ command: "setTries", arrTries });
+                webviewView.webview.postMessage({ command: "setTriesOption", currTry: iset.getCurrentTry() });
                 break;
+            case "selectTry":
+                // Set the current try
+                itries.setObjKey("current_try", message.text);
         }
       });
     }
@@ -95,104 +99,22 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
         // Use a nonce to whitelist which scripts can be run
         const nonce = getNonce();
 
-        return `<!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <!--
-                Use a content security policy to only allow loading images from https or from our extension directory,
-                and only allow scripts that have a specific nonce.
-            -->
-            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src https: data: vscode-resource:; script-src 'nonce-${nonce}'; style-src vscode-resource: 'unsafe-inline';">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href="${styleUri}" type="text/css" rel="stylesheet">
-            <title>Shop Config</title>
-        </head>
-        <body>
-            <h1>Shop Config</h1>
-<!-- Add text box to enter json data
--->
-            
-            <!-- add posibility to open enetered json data in new tab -->
-            <button id="openJson">Open Json</button>
-            <button id="loadJson">Load Json</button>
-            <button id="saveJson">Save Json</button>
-            <br>
-            <button id="generate">Generate Data</button>
-            <br>
-
-            
-            <!-- add drop down list with tries names from M_TryConfig getTries() dictionary -->
-            <select id="triesDropdown">
-                <option value="0">Select...</option>
-            </select>
+        //load html from file htmlShopConfig.html
+        const fs = require('fs');
+        const htmlPath = vscode.Uri.file(this._extensionUri.path + '/src/m_shop/htmlShopConfig.html');
+        const html = fs.readFileSync(htmlPath.fsPath, 'utf8');
 
 
-            
-            <br>
-            <textarea id="jsondata" rows="10" cols="50"></textarea>
-            <script nonce="${nonce}">
-                const vscode = acquireVsCodeApi();
-                document.getElementById('openJson').addEventListener('click', () => {
-                    const jsondata = document.getElementById('jsondata').value;
-                    vscode.postMessage({ command: 'openJson', text: jsondata });
-                });
-                document.getElementById('loadJson').addEventListener('click', () => {
-                    vscode.postMessage({ command: 'loadJson' });
-                });
-                document.getElementById('saveJson').addEventListener('click', () => {
-                    vscode.postMessage({ command: 'saveJson' });
-                });
-                document.getElementById('generate').addEventListener('click', () => {
-                    vscode.postMessage({ command: 'generate' });
-                    console.log("generate clicked");
-                });
-
-                //add tries names to drop down list
-  window.addEventListener('message', event => {
-    const message = event.data;
-
-    switch (message.command) {
-      case 'setTries':
-        const triesDropdown = document.getElementById('triesDropdown');
-        triesDropdown.innerHTML = '';
-        message.arrTries.forEach(tryName => {
-          const option = document.createElement('option');
-          option.value = tryName;
-          option.text = tryName;
-          triesDropdown.add(option);
-          console.log("try added");
-    });
-
-
-
-
-        //refresh dropdown list
-        triesDropdown.value = '0';
-
-        //add event listener to dropdown list
-        triesDropdown.addEventListener('change', () => {
-          const selectedTry = triesDropdown.options[triesDropdown.selectedIndex].text;
-          vscode.postMessage({ command: 'selectTry', text: selectedTry });
-        });
-
-        //print tries names
-        console.log(message.tries);
-        
-        break;
-    }
-    });
-
-            // Notify the extension that the webview is loaded
-            window.addEventListener('DOMContentLoaded', () => {
-                vscode.postMessage({ command: 'webviewLoaded' });
-            });
-
-            </script>
-
-            <script nonce="${nonce}" src="${scriptUri}"></script>
-        </body>
-        </html>`;
+        return html.replace(
+            /{{nonce}}/g,
+            nonce
+            ).replace(
+                /{{styleUri}}/g,
+                styleUri.toString()
+                ).replace(
+                    /{{scriptUri}}/g,
+                    scriptUri.toString()
+                    );
     }
 
 }
