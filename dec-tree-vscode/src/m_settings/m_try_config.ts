@@ -3,8 +3,8 @@
 import { M_Settings } from "./m_settings";
 import fs = require('fs');
 
-export class M_Config {
-  private static instance: M_Config;
+export class M_TryConfig {
+  private static instance: M_TryConfig;
 
   public obj: { [key: string]: any } = {};
 
@@ -12,11 +12,11 @@ export class M_Config {
     // Initialization code here
   }
 
-  public static getInstance(): M_Config {
-    if (!M_Config.instance) {
-      M_Config.instance = new M_Config();
+  public static getInstance(): M_TryConfig {
+    if (!M_TryConfig.instance) {
+      M_TryConfig.instance = new M_TryConfig();
     }
-    return M_Config.instance;
+    return M_TryConfig.instance;
   }
 
   public loadObj(): void {
