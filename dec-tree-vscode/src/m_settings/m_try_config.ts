@@ -45,7 +45,7 @@ export class M_TryConfig {
     const tries: { [key: string]: any } = {};
     for (const key in this.obj) {
       if (key.startsWith("try")) {
-        tries[this.obj[key]["name"]] = this.obj[key];
+        tries[this.obj[key]["name"]] = key;
       }
     }
 

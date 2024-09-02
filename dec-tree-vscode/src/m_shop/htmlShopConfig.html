@@ -10,6 +10,14 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="{{styleUri}}" type="text/css" rel="stylesheet">
             <title>Shop Config</title>
+
+            <style>
+                .separator {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-top: 1px solid #ddd;
+                }
+            </style>
         </head>
         <body>
             <h1>Shop Config</h1>
@@ -20,19 +28,26 @@
             <button id="openJson">Open Json</button>
             <button id="loadJson">Load Json</button>
             <button id="saveJson">Save Json</button>
-            <br>
+            <!-- add fancy seperator instead of br and hr -->
+            <div class="separator"></div>
+
+ 
             <button id="generate">Generate Data</button>
-            <br>
+            <div class="separator"></div>
+
 
             
             <!-- add drop down list with tries names from M_TryConfig getTries() dictionary -->
+             <!-- with label "Current try" -->
+            <label for="triesDropdown">Current try:</label>
             <select id="triesDropdown">
                 <option value="0">Select...</option>
             </select>
 
 
             
-            <br>
+            <div class="separator"></div>
+
             <textarea id="jsondata" rows="10" cols="50"></textarea>
             <script nonce="{{nonce}}">
                 const vscode = acquireVsCodeApi();

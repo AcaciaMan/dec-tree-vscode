@@ -29,13 +29,7 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
       const iset = M_Settings.getInstance();
       const itries = M_TryConfig.getInstance();
 
-      //add tries names to drop down list
-      const tries = itries.getTries();
-      //print tries names
-        console.log(tries);
 
-      //make array from dictionary keys
-        const arrTries = Object.keys(tries);
 
 
       webviewView.webview.onDidReceiveMessage((message) => {
@@ -59,6 +53,19 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
             //load json from file shop-config.json
             itries.loadObj();
             iset.addSetting("shop-config", itries.obj);
+            //add tries names to drop down list
+            var tries = itries.getTries();
+            //print tries names
+            console.log(tries);
+
+            //make array from dictionary keys
+            var arrTries = Object.keys(tries);
+            // Send data to the webview
+            webviewView.webview.postMessage({ command: "setTries", arrTries });
+            webviewView.webview.postMessage({
+              command: "setTriesOption",
+              currTry: iset.m_try["name"],
+            });
             break;
           case "saveJson":
             vscode.window.showInformationMessage(`Saving Json...`);
@@ -73,14 +80,24 @@ export class ProviderShopConfig implements vscode.WebviewViewProvider {
               vscode.window.showInformationMessage(`Generated!`);
             });
             break;
-            case "webviewLoaded":
-                // Send data to the webview
-                webviewView.webview.postMessage({ command: "setTries", arrTries });
-                webviewView.webview.postMessage({ command: "setTriesOption", currTry: iset.getCurrentTry() });
-                break;
-            case "selectTry":
-                // Set the current try
-                itries.setObjKey("current_try", message.text);
+          case "webviewLoaded":
+            //add tries names to drop down list
+            var tries = itries.getTries();
+            //print tries names
+            console.log(tries);
+
+            //make array from dictionary keys
+            var arrTries = Object.keys(tries);
+            // Send data to the webview
+            webviewView.webview.postMessage({ command: "setTries", arrTries });
+            webviewView.webview.postMessage({
+              command: "setTriesOption",
+              currTry: iset.m_try["name"],
+            });
+            break;
+          case "selectTry":
+            // Set the current try
+            itries.setObjKey("current_try", itries.getTries()[message.text]);
         }
       });
     }
