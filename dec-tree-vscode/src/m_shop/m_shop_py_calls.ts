@@ -3,6 +3,22 @@ import { M_Logging } from "../m_logging";
 import { PythonScript } from "../python_message";
 
 export class M_ShopPyCalls {
+
+  async analyse() {
+    let pythonScript = new PythonScript();
+    pythonScript.imports = ["from m_shop.m_shop_analysis import M_ShopAnalysis"];
+    pythonScript.code = [
+      "m_shop_analysis = M_ShopAnalysis()",
+      "m_shop_analysis.plot_yearly_sell()",
+      "m_shop_analysis.plot_yearly_stock()",
+      "m_result = 'OK'"
+    ];
+    pythonScript.m_return = "m_result";
+    await M_App.send(pythonScript);
+    M_Logging.log("Channel output:", M_App.pyApp.channel.received_output);
+  }
+
+
   async train() {
     let pythonScript = new PythonScript();
 

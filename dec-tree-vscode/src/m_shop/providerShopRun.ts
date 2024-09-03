@@ -28,6 +28,22 @@ export class ProviderShopRun implements vscode.WebviewViewProvider {
 
         webviewView.webview.onDidReceiveMessage((message) => {
             switch (message.command) {
+              case "analyse":
+                // Call the analyse method of the M_ShopPyCalls class
+                vscode.window.showInformationMessage(`Analysing...`);
+
+                m_calls.analyse().then(async () => {
+                  const filePath = vscode.Uri.file(
+                    iset.getTryFolder() + "/yearly_sell.png"
+                  );
+                  await vscode.commands.executeCommand("vscode.open", filePath);
+                });
+
+                // close information message
+                vscode.window.showInformationMessage(`Analysed!`);
+
+                break;
+
               case "train":
                 // Call the train method of the M_ShopPyCalls class
                 vscode.window.showInformationMessage(`Loading...`);
@@ -108,11 +124,16 @@ export class ProviderShopRun implements vscode.WebviewViewProvider {
             <h1>Shop Run</h1>
             <p>Click the buttons to run the shop.</p>
             <br>
+            <button id="analyseButton">Analyse</button>
+            <br>
         <button id="loadButton">Train</button>
         <button id="plotButton">Decision Tree</button>
         <button id="importanceButton">Feature Importance</button>
             <script nonce="${nonce}">
                 const vscode = acquireVsCodeApi();
+                document.getElementById('analyseButton').addEventListener('click', () => {
+                    vscode.postMessage({ command: 'analyse' });
+                });
                 document.getElementById('loadButton').addEventListener('click', () => {
                     vscode.postMessage({ command: 'train' });
                 });
