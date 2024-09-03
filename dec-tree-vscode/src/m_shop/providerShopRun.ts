@@ -37,10 +37,10 @@ export class ProviderShopRun implements vscode.WebviewViewProvider {
                     iset.getTryFolder() + "/yearly_sell.png"
                   );
                   await vscode.commands.executeCommand("vscode.open", filePath);
+                
+                  // close information message
+                  vscode.window.showInformationMessage(`Analysed!`);
                 });
-
-                // close information message
-                vscode.window.showInformationMessage(`Analysed!`);
 
                 break;
 
