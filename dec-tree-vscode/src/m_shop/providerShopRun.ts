@@ -56,10 +56,11 @@ export class ProviderShopRun implements vscode.WebviewViewProvider {
                     .then((doc) => {
                       vscode.window.showTextDocument(doc);
                     });
+                  // close information message
+                  vscode.window.showInformationMessage(`Trained!`);
                 });
 
-                // close information message
-                vscode.window.showInformationMessage(`Trained!`);
+
 
                 break;
               case "plot":

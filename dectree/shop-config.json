@@ -18,5 +18,8 @@
   "try2": {
     "name": "ShopAnalysis"
   },
-  "current_try": "try2"
+  "try3": {
+    "name": "ShopRegressor"
+  },
+  "current_try": "try3"
 }
