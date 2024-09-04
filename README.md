@@ -17,6 +17,13 @@ Next I am going to make an invented Web shop to sell Drills and Hammers. The sho
 
 For 6 years the shop buys items based on rules, like, one type of Drills and one type of Hammers to buy in a month based on Web page impressions when minimum defined levels of stock are reached.
 
+![vscode_yearly_sell](https://github.com/user-attachments/assets/35baa6c6-5463-4514-b2f4-45a05d977d9a)
+
 After 6 years there are gathered enough data to start making buy decisions based on statistics to better serve clients.
 
 Something like, if in next 2 months the shop will run out of items, then in that month buy one type of Drills and one type of Hammers what will be more in demand.
+
+Decision tree regressor trained to predict sell of 'Cheap drill'.
+
+![vscode_sell_prediction](https://github.com/user-attachments/assets/daca8dfc-4d73-463e-9792-dcc05ffecd99)
+
