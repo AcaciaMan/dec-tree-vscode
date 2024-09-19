@@ -94,6 +94,7 @@ export class M_ShopPyCalls {
           "print('m_Regressor:', m_Regressor, flush=True)",
           "m_Regressor.plot_feature_importance()",
           "m_Regressor.plot_sell_prediction()",
+          "m_Regressor.plot_seasonality()",
           "m_result = 'Ok'",
         ];
         pythonScript.m_return = "m_result";
