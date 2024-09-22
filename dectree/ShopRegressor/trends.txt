@@ -1,0 +1,20 @@
+  Frequency  SeasonsPeryear  TrendLength TrendEnd  \
+0   Monthly              12            1     2024   
+
+            TrendPeriod  ValueCount  Minimum  Median  \
+0  Jul 2023 to Jun 2024        12.0      0.0     5.5   
+
+    Average  Maximum  YearsInPeriod  SeasonsInPeriod  \
+0  6.333333     14.0            1.0             12.0   
+
+   PercentOfYears  PercentOfSeasons  KW-pValue  \
+0           100.0             100.0   0.443263   
+
+    Seasonality AppliedSeasonality  MK-S  MK-Variance  \
+0  Non-seasonal       Non-seasonal  11.0   209.666667   
+
+   MK-pvalue  IncreasingLikelihood     TrendDirection  \
+0   0.489808             75.509589  Likely increasing   
+
+   SenSlope  LowerSlope  UpperSlope  
+0       4.0       -72.0        79.2  
